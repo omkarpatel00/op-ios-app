@@ -1,0 +1,25 @@
+workflows:
+  ios-build:
+    name: iOS Build Workflow
+    environment:
+      xcode: latest
+      vars:
+        XCODE_WORKSPACE: ""
+        XCODE_SCHEME: HelloSwiftUI
+    scripts:
+      - name: Install CocoaPods (if needed)
+        script: |
+          if [ -f "Podfile" ]; then
+            pod install
+          fi
+      - name: Build iOS app
+        script: |
+          xcodebuild clean build \
+            -project HelloSwiftUI.xcodeproj \
+            -scheme HelloSwiftUI \
+            -destination 'generic/platform=iOS' \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO
+    artifacts:
+      - build/io
+
